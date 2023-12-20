@@ -38,21 +38,16 @@ const Posts = [
     });
   }
   
-  function deletePost() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const deletedPost = Posts.pop();
-        resolve(deletedPost);
-      }, 1000);
-    });
+  async function fetchUsers() {
+    const data = await fetch('https://jsonplaceholder.typicode.com/users');
+    const users = await data.json();
+    console.log(users);
   }
   
   async function main() {
     try {
       await Promise.all([createPost({ title: 'post3', body: 'this is post3' }), updateLastUserActivityTime()]);
-  
-      getPosts();
-  
+      
       console.log('All posts:');
       Posts.forEach((post) => {
         console.log(post.title);
@@ -60,9 +55,7 @@ const Posts = [
   
       console.log('Last User Activity Time:', lastUserActivityTime);
   
-      const deletedPost = await deletePost();
-  
-      console.log('Deleted Post:', deletedPost);
+      await deletePost(); // Implemented the  deletePost function
   
       console.log('New set of Posts:');
       Posts.forEach((post) => {
@@ -76,7 +69,7 @@ const Posts = [
         }, 1000);
       });
   
-      
+      // Wait for getColdDrinks
       const result = await getColdDrinks;
       console.log(result);
     } catch (error) {
